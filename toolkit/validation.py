@@ -19,6 +19,10 @@ def is_email(value):
 
 
 def is_ipv4(value):
+    """Report whether value is four decimal octets in 0..255.
+
+    Leading zeros are refused, so 01.2.3.4 is not treated as an address.
+    """
     parts = value.split(".")
     if len(parts) != 4:
         return False
@@ -31,10 +35,12 @@ def is_ipv4(value):
 
 
 def is_hex_color(value):
+    """Report whether value is a #RGB or #RRGGBB colour, ignoring case."""
     return bool(_HEX_COLOR.match(value))
 
 
 def is_uuid(value):
+    """Report whether value can be parsed as a UUID of any variant."""
     try:
         uuid.UUID(value)
     except (ValueError, AttributeError, TypeError):
