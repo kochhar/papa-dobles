@@ -19,6 +19,11 @@ def is_email(value):
 
 
 def is_ipv4(value):
+    """Report whether value looks like a dotted IPv4 address.
+
+    Each octet must be a decimal integer from 0 to 255 with no leading
+    zeros. This does not check that the address is assigned or reachable.
+    """
     parts = value.split(".")
     if len(parts) != 4:
         return False
@@ -31,10 +36,15 @@ def is_ipv4(value):
 
 
 def is_hex_color(value):
+    """Report whether value is a #RGB or #RRGGBB colour, case-insensitive."""
     return bool(_HEX_COLOR.match(value))
 
 
 def is_uuid(value):
+    """Report whether value can be parsed as a UUID.
+
+    Accepts the usual hyphenated and hex forms that uuid.UUID understands.
+    """
     try:
         uuid.UUID(value)
     except (ValueError, AttributeError, TypeError):
