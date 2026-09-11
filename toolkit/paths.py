@@ -9,19 +9,27 @@ _SLASHES = re.compile(r"/+")
 
 
 def normalize_slashes(path):
+    """Rewrite backslashes as slashes and collapse repeated slashes."""
     return _SLASHES.sub("/", path.replace("\\", "/"))
 
 
 def split_extension(name):
+    """Split a name into stem and last extension, including the dot."""
     stem, extension = posixpath.splitext(name)
     return stem, extension
 
 
 def is_hidden(path):
+    """Report whether the final path component starts with a dot."""
     return posixpath.basename(normalize_slashes(path)).startswith(".")
 
 
 def common_prefix(paths):
+    """Return the shared slash-separated prefix of the given paths.
+
+    An empty sequence yields the empty string. Comparison is after slash
+    normalisation, segment by segment.
+    """
     if not paths:
         return ""
     segmented = [normalize_slashes(p).split("/") for p in paths]
