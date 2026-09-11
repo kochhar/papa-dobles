@@ -17,6 +17,11 @@ def slugify(text):
 
 
 def truncate_middle(text, limit, marker="..."):
+    """Shorten text to `limit` characters by replacing the middle.
+
+    If the marker itself is longer than the limit, return a prefix of the
+    marker. Short text is returned unchanged.
+    """
     if len(text) <= limit:
         return text
     keep = limit - len(marker)
@@ -28,8 +33,13 @@ def truncate_middle(text, limit, marker="..."):
 
 
 def title_case(text):
+    """Capitalise the first letter of each whitespace-separated word.
+
+    Runs of spaces collapse to a single space.
+    """
     return " ".join(word[:1].upper() + word[1:] for word in text.split())
 
 
 def count_words(text):
+    """Count whitespace-separated words. Empty text has none."""
     return len(text.split())
