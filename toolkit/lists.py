@@ -15,10 +15,12 @@ def chunk(items, size):
 
 
 def flatten(nested):
+    """Concatenate one level of nested sequences into a single list."""
     return [item for group in nested for item in group]
 
 
 def dedupe(items):
+    """Return items with later duplicates dropped, preserving first-seen order."""
     seen = set()
     unique = []
     for item in items:
@@ -29,6 +31,10 @@ def dedupe(items):
 
 
 def partition(items, predicate):
+    """Split items into those that match predicate and those that do not.
+
+    Order is preserved in both halves.
+    """
     matching = []
     rest = []
     for item in items:
