@@ -12,6 +12,11 @@ _FALSE = {"0", "false", "no", "off"}
 
 
 def parse_key_values(text):
+    """Parse a comma-separated list of key=value pairs into a dict.
+
+    Surrounding space on keys, values, and pairs is stripped. A token
+    without an equals sign is an error.
+    """
     pairs = {}
     for item in text.split(","):
         item = item.strip()
@@ -25,10 +30,16 @@ def parse_key_values(text):
 
 
 def parse_csv_line(line):
+    """Split one CSV record, honouring quoted commas."""
     return next(csv.reader([line]))
 
 
 def parse_duration(text):
+    """Convert a compact duration such as 1h30m into seconds.
+
+    Only h, m, and s units are accepted, case-insensitively, and the
+    whole string must be a concatenation of those tokens.
+    """
     cleaned = text.strip().lower()
     matches = _DURATION.findall(cleaned)
     if not matches or "".join(a + b for a, b in matches) != cleaned:
@@ -37,6 +48,11 @@ def parse_duration(text):
 
 
 def parse_bool(text):
+    """Interpret common truthy and falsey words, ignoring case and space.
+
+    True for 1/true/yes/on, False for 0/false/no/off. Anything else
+    raises ValueError.
+    """
     cleaned = text.strip().lower()
     if cleaned in _TRUE:
         return True
