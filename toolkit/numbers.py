@@ -15,12 +15,18 @@ def clamp(value, low, high):
 
 
 def mean(values):
+    """Return the arithmetic mean. Raise ValueError on an empty sequence."""
     if not values:
         raise ValueError("mean of no values")
     return sum(values) / len(values)
 
 
 def median(values):
+    """Return the median of `values`.
+
+    An odd-length sequence yields the middle element after sorting; an
+    even-length one averages the central pair. Raise ValueError if empty.
+    """
     if not values:
         raise ValueError("median of no values")
     ordered = sorted(values)
@@ -31,6 +37,11 @@ def median(values):
 
 
 def percentile(values, q):
+    """Return the nearest-rank percentile of `values` at fraction `q`.
+
+    `q` must lie in 0..1 inclusive. Raise ValueError if the sequence is
+    empty or `q` is out of range.
+    """
     if not values:
         raise ValueError("percentile of no values")
     if not 0.0 <= q <= 1.0:
