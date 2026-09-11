@@ -7,14 +7,28 @@ from datetime import date, timedelta
 
 
 def parse_iso_date(text):
+    """Parse an ISO-8601 calendar date, ignoring surrounding whitespace.
+
+    Delegates to datetime.date.fromisoformat, so the accepted forms are
+    whatever that method allows for the running Python.
+    """
     return date.fromisoformat(text.strip())
 
 
 def days_between(start, end):
+    """Return the absolute number of calendar days between two dates.
+
+    Order does not matter: the result is always non-negative.
+    """
     return abs((end - start).days)
 
 
 def add_business_days(start, count):
+    """Advance or rewind a date by `count` weekdays.
+
+    Saturday and Sunday are skipped in both directions. The start date
+    itself is not counted, even if it is a weekday.
+    """
     current = start
     remaining = count
     step = 1 if count >= 0 else -1
@@ -26,5 +40,10 @@ def add_business_days(start, count):
 
 
 def month_bounds(day):
+    """Return the first and last dates of the month that contains `day`.
+
+    February in a leap year runs to the 29th; otherwise the last day is
+    whatever calendar.monthrange reports.
+    """
     last = calendar.monthrange(day.year, day.month)[1]
     return date(day.year, day.month, 1), date(day.year, day.month, last)
