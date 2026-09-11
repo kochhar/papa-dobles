@@ -19,6 +19,11 @@ def is_email(value):
 
 
 def is_ipv4(value):
+    """Report whether value has the shape of a dotted IPv4 address.
+
+    Four decimal octets in 0..255, with no leading zeros. This does
+    not check that the address is reachable.
+    """
     parts = value.split(".")
     if len(parts) != 4:
         return False
@@ -31,10 +36,19 @@ def is_ipv4(value):
 
 
 def is_hex_color(value):
+    """Report whether value is a #RGB or #RRGGBB colour.
+
+    The leading hash is required and the letters may be either case.
+    """
     return bool(_HEX_COLOR.match(value))
 
 
 def is_uuid(value):
+    """Report whether value can be parsed as a UUID.
+
+    Any of the forms accepted by uuid.UUID count; malformed input
+    returns False rather than raising.
+    """
     try:
         uuid.UUID(value)
     except (ValueError, AttributeError, TypeError):
